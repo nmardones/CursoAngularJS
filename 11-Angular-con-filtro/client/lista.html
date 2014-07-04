@@ -1,0 +1,31 @@
+<section name="Lista">
+    <p class="lead">Estos son tus movimientos recientes.</p>
+    <br>
+    <label class="control-label" for="importe">Filtrar:</label>
+    <input type="text" name="filtro" placeholder="qué buscas?" class="input" ng-model="valorBuscado">
+     <button class="btn btn-primary" ng-click="valorCorte=0">Ver todos los movimientos</button>
+    <button class="btn btn-success" ng-click="valorCorte=1000">Sólo Importes importantes</button>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th><a href="" ng-click="campo = 'fecha'; sentido = campo == 'fecha' && !sentido">Fecha</a>
+                </th>
+                <th>Tipo</th>
+                <th>Categoría</th>
+                <th><a href="" ng-click="campo = 'importe'; sentido = campo == 'importe' && !sentido">Importe</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="movimiento in controlCaja.movimientos | filter:valorBuscado | orderBy:campo:sentido | importantes:valorCorte">
+                <td class="text-left"><a ng-href="#/ver/{{movimiento.id}}">{{movimiento.id }}</a> </td>
+                <td class="text-left">{{movimiento.fecha | date}}</td>
+                <td class="text-left">{{movimiento.tipo}}</td>
+                <td class="text-left">{{movimiento.categoria | limpiarURL | recortar:15}}</td>
+                <td class="text-left" ng-class="{'text-success': movimiento.tipo=='Ingreso', 'text-danger' : movimiento.tipo=='Gasto'}">{{movimiento.importe | number:2}} €</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
